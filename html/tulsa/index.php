@@ -44,7 +44,7 @@ $roomcount = count($tuldevarr);
 					</tr>
 				</thead>
 				<tbody>
-					<?php
+<?php
 					for ($i = 0; $i < $roomcount; $i++) {
 						echo ("					<tr>\n");
 						$deviceurl = "https://webexapis.com/v1/devices/$tuldevarr[$i]";
@@ -71,8 +71,7 @@ $roomcount = count($tuldevarr);
 						echo ("						<td>&nbsp;</td>\n");
 						echo ("					</tr>\n");
 					}
-					?>
-				</tbody>
+?>				</tbody>
 				<thead>
 					<tr>
 						<th colspan="2">Total</th>
