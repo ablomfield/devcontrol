@@ -78,14 +78,12 @@ if (isset($_GET['code'])) {
     $_SESSION["timezone"] = $timezone;
     $_SESSION["authtoken"] = $authtoken;
     $_SESSION["timezone"] = $timezone;
-    mysqli_query($dbconn, "INSERT INTO history (eventdate, eventsource, eventdesc) VALUES(NOW(),'" . $email . "','LOGIN')");
     header("Location: /");
   } else {
     $rowusercheck = mysqli_fetch_assoc($rsusercheck);
     $isadmin = $rowusercheck["isadmin"];
     $userpkid = $rowusercheck["pkid"];
     $timezone = $rowusercheck["timezone"];
-    $orgid = $rowusercheck["lastorg"];
     if ($orgid != NULL) {
       // Retrieve Org Details using authtoken
       $orgurl = "https://webexapis.com/v1/organizations/" . $orgid;
@@ -116,7 +114,6 @@ if (isset($_GET['code'])) {
     $_SESSION["authtoken"] = $authtoken;
     $_SESSION["isadmin"] = $isadmin;
     $_SESSION["timezone"] = $timezone;
-    mysqli_query($dbconn, "INSERT INTO history (eventdate, eventsource, eventdesc) VALUES(NOW(),'" . $email . "','LOGIN')");
     header("Location: /");
   }
 } else {
