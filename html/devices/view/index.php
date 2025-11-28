@@ -51,7 +51,7 @@ if (isset($_REQUEST["deviceid"])) {
 					);
 					$devicejson = curl_exec($getdevices);
 					$devicearray = json_decode($devicejson);
-					print_r($devicearray);
+					//print_r($devicearray);
 					if (isset($devicearray->id)) {
 						echo("				<table class=\"default\">\n");
 						echo("				  <tr>\n");
