@@ -8,6 +8,13 @@ include($_SERVER['DOCUMENT_ROOT'] . "/includes/settings.php");
 
 // Get Login Details
 include($_SERVER['DOCUMENT_ROOT'] . "/includes/checklogin.php");
+
+// Get Device ID
+if (isset($_REQUEST["deviceid"])) {
+	$deviceid = $_REQUEST["deviceid"];
+} else {
+	header('Location: /devices/');
+}
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -30,7 +37,7 @@ include($_SERVER['DOCUMENT_ROOT'] . "/includes/checklogin.php");
 			<div class="container">
 				<div class="row gtr-200">
 <?php
-					$deviceurl = "https://webexapis.com/v1/devices?personId=$personid&type=roomdesk";
+					$deviceurl = "https://webexapis.com/v1/devices/$deviceid";
 					$getdevices = curl_init($deviceurl);
 					curl_setopt($getdevices, CURLOPT_CUSTOMREQUEST, "GET");
 					curl_setopt($getdevices, CURLOPT_RETURNTRANSFER, true);
@@ -45,17 +52,22 @@ include($_SERVER['DOCUMENT_ROOT'] . "/includes/checklogin.php");
 					$devicejson = curl_exec($getdevices);
 					$devicearray = json_decode($devicejson);
 					if (isset($devicearray->items[0]->id)) {
-						$devicecount = count($devicearray->items);
-						for ($i = 0; $i < $devicecount; $i++) {
-							echo ("					<section class=\"col-4 col-12-narrower\">\n");
-							echo ("						<div class=\"box highlight\">\n");
-							echo ("							<a href=\"/devices/view/?deviceid=" . $devicearray->items[$i]->webexDeviceId . "\"><i class=\"icon major solid fa-desktop\" style=\"text-decoration: none;\"></i>\n");
-							echo ("							<h3>" . $devicearray->items[$i]->displayName . "<br>" . $devicearray->items[$i]->mac . "</a></h3>\n");
-							echo ("						</div>\n");
-							echo ("					</section>\n");
-						}
+						echo("				<table>\n");
+						echo("				  <tr>\n");
+						echo("				    <td>Name:</td>\n");
+						echo("				    <td>" . $devicearray->items[$i]->displayName . "</td>\n");
+						echo("				  </tr>\n");
+						echo("				  <tr>\n");
+						echo("				    <td>MAC Address:</td>\n");
+						echo("				    <td>" . $devicearray->items[$i]->mac . "</td>\n");
+						echo("				  </tr>\n");						
+						echo("				  <tr>\n");
+						echo("				    <td>IP Address:</td>\n");
+						echo("				    <td>" . $devicearray->items[$i]->ip . "</td>\n");
+						echo("				  </tr>\n");												
+						echo("				</table>\n");
 					} else {
-						echo ("No devices found.<br>\n");
+						echo ("Device not found.<br>\n");
 					}
 ?></div>
 			</div>
