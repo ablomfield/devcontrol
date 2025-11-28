@@ -48,7 +48,7 @@ include($_SERVER['DOCUMENT_ROOT'] . "/includes/checklogin.php");
 						$devicecount = count($devicearray->items);
 						echo ("Found $devicecount devices.<br>\n");
 						print_r($devicearray);
-						for ($i = 0; $i < $devicecount - 1; $i++) {
+						for ($i = 0; $i < $devicecount; $i++) {
 							echo ("					<section class=\"col-4 col-12-narrower\">\n");
 							echo ("						<div class=\"box highlight\">\n");
 							echo ("							<i class=\"icon major solid fa-desktop\" style=\"text-decoration: none;\"></i>\n");
