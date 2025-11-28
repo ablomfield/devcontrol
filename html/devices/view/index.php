@@ -53,7 +53,7 @@ if (isset($_REQUEST["deviceid"])) {
 					$devicearray = json_decode($devicejson);
 					print_r($devicearray);
 					if (isset($devicearray->id)) {
-						echo("				<table>\n");
+						echo("				<table class=\"default\">\n");
 						echo("				  <tr>\n");
 						echo("				    <td>Name:</td>\n");
 						echo("				    <td>" . $devicearray->displayName . "</td>\n");
