@@ -47,8 +47,7 @@ $roomcount = count($tuldevarr);
 					<?php
 					for ($i = 0; $i < $roomcount; $i++) {
 						echo ("					<tr>\n");
-
-						$deviceurl = "https://webexapis.com/v1/devices/$deviceid";
+						$deviceurl = "https://webexapis.com/v1/devices/$tuldevarr[$i]";
 						$getdevices = curl_init($deviceurl);
 						curl_setopt($getdevices, CURLOPT_CUSTOMREQUEST, "GET");
 						curl_setopt($getdevices, CURLOPT_RETURNTRANSFER, true);
@@ -57,7 +56,7 @@ $roomcount = count($tuldevarr);
 							CURLOPT_HTTPHEADER,
 							array(
 								'Content-Type: application/json',
-								'Authorization: Bearer ' . $authtoken
+								'Authorization: Bearer ' . $accesstoken
 							)
 						);
 						$devicejson = curl_exec($getdevices);
