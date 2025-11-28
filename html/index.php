@@ -30,7 +30,7 @@ include($_SERVER['DOCUMENT_ROOT'] . "/includes/checklogin.php");
 		if ($loggedin) {
 			include($_SERVER['DOCUMENT_ROOT'] . "/includes/icons.php");
 		} else {
-			include($_SERVER['DOCUMENT_ROOT'] . "/includes/login.php");
+			echo("<br>\n");
 		}
 		?> <!-- Footer -->
 		<?php include($_SERVER['DOCUMENT_ROOT'] . "/includes/footer.php"); ?>
