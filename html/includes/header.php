@@ -1,6 +1,6 @@
 				<div id="header">
 					<!-- Logo -->
-					<h1><a href="/"><img height="75px" src="/images/icononly_transparent_nobuffer.png" alt="<?php echo ($sitetitle); ?>"></a>&nbsp;&nbsp;&nbsp;<a href="/" id="logo"><?php echo ($sitetitle); ?></a></h1>
+					<h1><a href="/"><img height="75px" src="/images/devcontrol.png" alt="<?php echo ($sitetitle); ?>"></a>&nbsp;&nbsp;&nbsp;<a href="/" id="logo"><?php echo ($sitetitle); ?></a></h1>
 					<!-- Nav -->
 					<?php
 					if ($loggedin) {
