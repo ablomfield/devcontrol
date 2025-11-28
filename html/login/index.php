@@ -33,7 +33,7 @@ if (isset($_GET['code'])) {
     CURLOPT_POSTFIELDS => $accessenc // Data that will send
   ));
   $accessdata = curl_exec($getaccess);
-  print_r($accessdata);
+  //print_r($accessdata);
   $accessjson = json_decode($accessdata);
   $authtoken = $accessjson->access_token;
   $authexpires = $accessjson->expires_in;
@@ -70,14 +70,14 @@ if (isset($_GET['code'])) {
   $rsusercheck = mysqli_query($dbconn, "SELECT * FROM users WHERE personid = '" . $personid . "'");
   if (mysqli_fetch_array($rsusercheck) == false) {
     $insertsql = "INSERT INTO users (personid, displayname, email, orgid, accesstoken, accessexpires, refreshtoken, refreshexpires, lastaccess) VALUES('" . $personid . "', '" . str_replace("'", "''", $displayname) . "', '" . $email . "', '" . $orgid . "', '" . $authtoken . "', '" . $authexpires . "', '" . $refreshtoken . "', '" . $refreshexpires . "', '" . $lastaccess . "')";
-    echo($insertsql);
-    die();
+    //echo($insertsql);
+    //die();
     mysqli_query($dbconn, $insertsql);
     header("Location: /");
   } else {
     $updatesql = "UPDATE users SET displayname = '" . str_replace("'", "''", $displayname) . "', email = '" . $email . "', orgid = '" . $orgid . "', accesstoken = '" . $authtoken . "', accessexpires = '" . $authexpires . "', refreshtoken = '" . $refreshtoken . "' , refreshexpires = '" . $refreshexpires . "', lastaccess = '" . $lastaccess . "' WHERE personid = '" . $personid . "'";
-    echo ($updatesql);
-    die();
+    //echo ($updatesql);
+    //die();
     mysqli_query($dbconn, $updatesql);
     header("Location: /");
   }
