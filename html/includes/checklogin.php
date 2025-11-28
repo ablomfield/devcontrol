@@ -1,6 +1,9 @@
 <?php
 if (isset($_SESSION['personid'])) {
     $loggedin = True;
+    $displayname = $_SESSION["displayname"];
+    $authtoken = $_SESSION["authtoken"];
+    $userpkid = $_SESSION["userpkid"];
     if (isset($_SESSION['enabledebug'])) {
         $enabledebug = $_SESSION["enabledebug"];
     } else {
