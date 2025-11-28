@@ -26,7 +26,20 @@ include($_SERVER['DOCUMENT_ROOT'] . "/includes/checklogin.php");
 		<!-- Header -->
 		<?php include($_SERVER['DOCUMENT_ROOT'] . "/includes/header.php"); ?>
 		<!-- Main Content -->
-
+		<section class="wrapper style1">
+			<div class="container">
+				<div class="row gtr-200"><?php
+											for ($i = 0; $i < 5; $i++) {
+												echo ("					<section class=\"col-4 col-12-narrower\">\n");
+												echo ("						<div class=\"box highlight\">\n");
+												echo ("							<i class=\"icon major solid fa-desktop\" style=\"text-decoration: none;\"></i>\n");
+												echo ("							<h3><a href=\"/devices/dev$i</a></h3>\n");
+												echo ("						</div>\n");
+												echo ("					</section>\n");
+											}
+											?> </div>
+			</div>
+		</section>
 		<!-- Footer -->
 		<?php include($_SERVER['DOCUMENT_ROOT'] . "/includes/footer.php"); ?>
 	</div>
