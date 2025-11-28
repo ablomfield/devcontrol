@@ -1,13 +1,13 @@
 <?php
-$sitesec = "home";
-session_start();
-date_default_timezone_set("America/Chicago");
-
 // Import Settings
 include($_SERVER['DOCUMENT_ROOT'] . "/includes/settings.php");
 
-// Get Login Details
-include($_SERVER['DOCUMENT_ROOT'] . "/includes/checklogin.php");
+// Get Access Token
+$authuser = 1;
+$rsaccess = mysqli_query($dbconn, "SELECT `accesstoken` FROM `users` WHERE `pkid` = $authuser") or die("Error in Selecting " . mysqli_error($dbconn));
+$rowaccess = mysqli_fetch_assoc($rsaccess);
+$accesstoken = $rowaccess["accesstoken"];
+
 
 // Tulsa Device Array
 $tuldevarr = ['Y2lzY29zcGFyazovL3VybjpURUFNOnVzLWVhc3QtMl9hL0RFVklDRS9hNzUyZjQ4My1hODRkLTRjODMtOGY4OS1iOTViNzYyYjk0YTk']; // Lobby
@@ -34,9 +34,7 @@ $roomcount = count($tuldevarr);
 
 <body class="is-preload">
 	<div id="page-wrapper">
-		<!-- Main Content -->
 		<div>
-			<h3>Tulsa - <?php echo ($roomcount); ?> Rooms</h3><br>
 			<table class="default">
 				<thead>
 					<tr>
@@ -56,16 +54,7 @@ $roomcount = count($tuldevarr);
 				</thead>
 			</table>
 		</div>
-		<!-- Footer -->
-		<?php include($_SERVER['DOCUMENT_ROOT'] . "/includes/footer.php"); ?>
 	</div>
-	<!-- Scripts -->
-	<script src="/assets/js/jquery.min.js"></script>
-	<script src="/assets/js/jquery.dropotron.min.js"></script>
-	<script src="/assets/js/browser.min.js"></script>
-	<script src="/assets/js/breakpoints.min.js"></script>
-	<script src="/assets/js/util.js"></script>
-	<script src="/assets/js/main.js"></script>
 </body>
 
 </html>
