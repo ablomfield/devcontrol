@@ -37,20 +37,27 @@ $roomcount = count($tuldevarr);
 		<!-- Header -->
 		<?php include($_SERVER['DOCUMENT_ROOT'] . "/includes/header.php"); ?>
 		<!-- Main Content -->
-		 <div>
-			<h3>Tulsa - <?php echo($roomcount); ?> Rooms</h3><br>
+		<div>
+			<h3>Tulsa - <?php echo ($roomcount); ?> Rooms</h3><br>
 			<table class="default">
-				<tr>
-					<th>Room</th>
-					<th>In Use</th>
-					<th>Count</th>
-				</tr>
-				<tr>
-					<th colspan="2">Total</th>
-					<th>X</th>
-				</tr>
+				<thead>
+					<tr>
+						<th>Room</th>
+						<th>In Use</th>
+						<th>Count</th>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+				<thead>
+					<tr>
+						<th colspan="2">Total</th>
+						<th>X</th>
+					</tr>
+				</thead>
 			</table>
-		 </div>
+		</div>
 		<!-- Footer -->
 		<?php include($_SERVER['DOCUMENT_ROOT'] . "/includes/footer.php"); ?>
 	</div>
