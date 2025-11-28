@@ -33,6 +33,7 @@ if (isset($_GET['code'])) {
     CURLOPT_POSTFIELDS => $accessenc // Data that will send
   ));
   $accessdata = curl_exec($getaccess);
+  print_r($accessdata);
   $accessjson = json_decode($accessdata);
   $authtoken = $accessjson->access_token;
   $authexpires = $accessjson->expires_in;
