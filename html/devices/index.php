@@ -50,7 +50,7 @@ include($_SERVER['DOCUMENT_ROOT'] . "/includes/checklogin.php");
 							echo ("					<section class=\"col-4 col-12-narrower\">\n");
 							echo ("						<div class=\"box highlight\">\n");
 							echo ("							<a href=\"/devices/view/?deviceid=" . $devicearray->items[$i]->webexDeviceId . "\"><i class=\"icon major solid fa-desktop\" style=\"text-decoration: none;\"></i>\n");
-							echo ("							<h3>" . $devicearray->items[$i]->displayName . "<br>" . $devicearray->items[$i]->mac . "</a></h3>\n");
+							echo ("							<h3>" . $devicearray->items[$i]->displayName . "<br><small>" . $devicearray->items[$i]->mac . "<br>" . $devicearray->items[$i]->ip . "</small></a></h3>\n");
 							echo ("						</div>\n");
 							echo ("					</section>\n");
 						}
