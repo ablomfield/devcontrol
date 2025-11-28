@@ -39,7 +39,7 @@ $roomcount = count($tuldevarr);
 		<!-- Main Content -->
 		 <div>
 			<h3>Tulsa - <?php echo($roomcount); ?> Rooms</h3><br>
-			<table>
+			<table class="default">
 				<tr>
 					<th>Room</th>
 					<th>In Use</th>
