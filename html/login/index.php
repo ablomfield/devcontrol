@@ -28,6 +28,11 @@ if (isset($_GET['code'])) {
   $accessjson = json_decode($accessdata);
   //print_r($accessdata);
   $authtoken = $accessjson->access_token;
+  $authexpires = $accessjson->expires_in;
+  $refreshtoken = $accessjson->refresh_token;
+  $refreshexpires = $accessjson->refresh_token_expires_in;
+  $authexpires = date("Y-m-d H:i:s", time() + $authexpires);
+  $refreshexpires = date("Y-m-d H:i:s", time() + $refreshexpires);
   $lastaccess = date("Y-m-d H:i:s", time());
 
   // Retrieve Details using authtoken
@@ -68,7 +73,7 @@ if (isset($_GET['code'])) {
         exit("Denied - domain not allowed ($emaildomain)");
       }
     }
-    $insertsql = "INSERT INTO users (personid, displayname, email, lastaccess, timezone) VALUES('" . $personid . "', '" . str_replace("'", "''", $displayname) . "', '" . $email . "', '" . $lastaccess . "', '" . $timezone . "')";
+    $insertsql = "INSERT INTO users (personid, displayname, email, lastaccess, timezone, accesstoken, accessexpires, refreshtoken, refreshexpires) VALUES('" . $personid . "', '" . str_replace("'", "''", $displayname) . "', '" . $email . "', '" . $lastaccess . "', '" . $timezone . "', '" . $authtoken . "', '" . $authexpires . "', '" . $refreshtoken . "', '" . $refreshexpires . "')";
     mysqli_query($dbconn, $insertsql);
     $userpkid = $dbconn->pkid;
     $_SESSION["userpkid"] = $userpkid;
@@ -104,7 +109,7 @@ if (isset($_GET['code'])) {
       $_SESSION["orgid"] = $orgid;
       $_SESSION["orgname"] = $orgname;
     }
-    $updatesql = "UPDATE users SET personid = '" . $personid . "', displayname = '" . str_replace("'", "''", $displayname) . "', email = '" . $email . "', lastaccess = '" . $lastaccess . "' WHERE email = '" . $email . "'";
+    $updatesql = "UPDATE users SET personid = '" . $personid . "', displayname = '" . str_replace("'", "''", $displayname) . "', email = '" . $email . "', lastaccess = '" . $lastaccess . "', accesstoken = '" . $authtoken . "', accessexpires = '" . $authexpires . "', refreshtoken = '" . $refreshtoken . "' , refreshexpires = '" . $refreshexpires . "' WHERE email = '" . $email . "'";
     mysqli_query($dbconn, $updatesql);
     $_SESSION["userpkid"] = $userpkid;
     $_SESSION["personid"] = $personid;
