@@ -11,7 +11,12 @@
 							echo (" class=\"current\"");
 						}
 						echo ("><a href=\"/\">Home</a></li>\n");
-						echo ("><a href=\"/devices\">Devices</a></li>\n");						
+						echo ("					    <li");
+						if ($sitesec == "devices") {
+							echo (" class=\"current\"");
+						}
+						echo ("><a href=\"/devices/\">Devices</a></li>\n");
+
 						if ($isadmin) {
 							echo ("					    <li");
 							if ($sitesec == "admin") {
