@@ -61,7 +61,6 @@ if (isset($_GET['code'])) {
   $displayname = $personjson->displayName;
   $emailarr = $personjson->emails;
   $email = $emailarr[0];
-  $avatar = $personjson->avatar;
   $orgid = $personjson->orgId;
   $_SESSION["personid"] = $personid;
   setcookie("personid", $personid, strtotime("+1 year"), "/");
@@ -69,21 +68,13 @@ if (isset($_GET['code'])) {
   // Check if User Exists in Database
   $rsusercheck = mysqli_query($dbconn, "SELECT * FROM users WHERE personid = '" . $personid . "'");
   if (mysqli_fetch_array($rsusercheck) == false) {
-    $insertsql = "INSERT INTO users (personid, displayname, email, avatar, orgid, accesstoken, accessexpires, refreshtoken, refreshexpires, lastaccess) VALUES('" . $personid . "', '" . str_replace("'", "''", $displayname) . "', '" . $email . "', '" . $avatar . "', '" . $orgid . "', '" . $authtoken . "', '" . $authexpires . "', '" . $refreshtoken . "', '" . $refreshexpires . "', '" . $lastaccess . "')";
+    $insertsql = "INSERT INTO users (personid, displayname, email, orgid, accesstoken, accessexpires, refreshtoken, refreshexpires, lastaccess) VALUES('" . $personid . "', '" . str_replace("'", "''", $displayname) . "', '" . $email . "', '" . $orgid . "', '" . $authtoken . "', '" . $authexpires . "', '" . $refreshtoken . "', '" . $refreshexpires . "', '" . $lastaccess . "')";
     //echo($insertsql);
     //die();
     mysqli_query($dbconn, $insertsql);
-    if ($avatar !== "") {
-      $savepath = fopen("../avatars/" . $personid . ".png", 'wb');
-      $size = getimagesize($avatar);
-      $avsave = imagecreatetruecolor(250, 250);
-      $avsource = imagecreatefromjpeg($avatar);
-      imagecopyresampled($avsave, $avsource, 0, 0, 0, 0, 250, 250, $size[0], $size[1]);
-      imagepng($avsave, $savepath);
-    }
     header("Location: /");
   } else {
-    $updatesql = "UPDATE users SET displayname = '" . str_replace("'", "''", $displayname) . "', email = '" . $email . "', avatar = '" . $avatar . "', orgid = '" . $orgid . "', accesstoken = '" . $authtoken . "', accessexpires = '" . $authexpires . "', refreshtoken = '" . $refreshtoken . "' , refreshexpires = '" . $refreshexpires . "', lastaccess = '" . $lastaccess . "' WHERE personid = '" . $personid . "'";
+    $updatesql = "UPDATE users SET displayname = '" . str_replace("'", "''", $displayname) . "', email = '" . $email . "', orgid = '" . $orgid . "', accesstoken = '" . $authtoken . "', accessexpires = '" . $authexpires . "', refreshtoken = '" . $refreshtoken . "' , refreshexpires = '" . $refreshexpires . "', lastaccess = '" . $lastaccess . "' WHERE personid = '" . $personid . "'";
     //echo ($updatesql);
     //die();
     mysqli_query($dbconn, $updatesql);
