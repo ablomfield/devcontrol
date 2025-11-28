@@ -1,6 +1,7 @@
 <?php
 if (isset($_SESSION['personid'])) {
     $loggedin = True;
+    $personid = $_SESSION["personid"];
     $displayname = $_SESSION["displayname"];
     $authtoken = $_SESSION["authtoken"];
     $userpkid = $_SESSION["userpkid"];

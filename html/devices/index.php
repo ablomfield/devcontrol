@@ -30,14 +30,29 @@ include($_SERVER['DOCUMENT_ROOT'] . "/includes/checklogin.php");
 			<div class="container">
 				<div class="row gtr-200">
 <?php
-											for ($i = 0; $i < 5; $i++) {
-												echo ("					<section class=\"col-4 col-12-narrower\">\n");
-												echo ("						<div class=\"box highlight\">\n");
-												echo ("							<i class=\"icon major solid fa-desktop\" style=\"text-decoration: none;\"></i>\n");
-												echo ("							<h3><a href=\"/devices/dev$i\">$i</a></h3>\n");
-												echo ("						</div>\n");
-												echo ("					</section>\n");
-											}
+					$deviceurl = "https://webexapis.com/v1/devices?personId=$personid&type=roomdesk";
+					$getdevices = curl_init($deviceurl);
+					curl_setopt($getdevices, CURLOPT_CUSTOMREQUEST, "GET");
+					curl_setopt($getdevices, CURLOPT_RETURNTRANSFER, true);
+					curl_setopt(
+						$getdevices,
+						CURLOPT_HTTPHEADER,
+						array(
+							'Content-Type: application/json',
+							'Authorization: Bearer ' . $admintoken
+						)
+					);
+					$devicejson = curl_exec($getdevices);
+					$devicearray = json_decode($devicejson);
+					for ($i = 0; $i < 5; $i++) {
+
+						echo ("					<section class=\"col-4 col-12-narrower\">\n");
+						echo ("						<div class=\"box highlight\">\n");
+						echo ("							<i class=\"icon major solid fa-desktop\" style=\"text-decoration: none;\"></i>\n");
+						echo ("							<h3><a href=\"/devices/dev$i\">$i</a></h3>\n");
+						echo ("						</div>\n");
+						echo ("					</section>\n");
+					}
 ?></div>
 			</div>
 		</section>
