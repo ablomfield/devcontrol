@@ -39,11 +39,12 @@ include($_SERVER['DOCUMENT_ROOT'] . "/includes/checklogin.php");
 						CURLOPT_HTTPHEADER,
 						array(
 							'Content-Type: application/json',
-							'Authorization: Bearer ' . $admintoken
+							'Authorization: Bearer ' . $authtoken
 						)
 					);
 					$devicejson = curl_exec($getdevices);
 					$devicearray = json_decode($devicejson);
+					print_r($devicearray);
 					for ($i = 0; $i < 5; $i++) {
 
 						echo ("					<section class=\"col-4 col-12-narrower\">\n");
