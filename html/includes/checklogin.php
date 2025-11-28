@@ -4,6 +4,8 @@ if (isset($_SESSION['personid'])) {
     $displayname = $_SESSION["displayname"];
     $authtoken = $_SESSION["authtoken"];
     $userpkid = $_SESSION["userpkid"];
+    $timezone = $_SESSION["timezone"];
+    $email = $_SESSION["email"];
     if (isset($_SESSION['enabledebug'])) {
         $enabledebug = $_SESSION["enabledebug"];
     } else {
