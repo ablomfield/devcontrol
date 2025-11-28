@@ -20,6 +20,8 @@ $client_id = $rowsettings["client_id"];
 $client_secret = $rowsettings["client_secret"];
 $integration_id = $rowsettings["integration_id"];
 $oauth_url = $rowsettings["oauth_url"];
+$lockdomains = $rowsettings["lockdomains"];
+$selfregistration = $rowsettings["selfregistration"];
 
 if (isset($_SESSION["personid"])) {
 	$personid = $_SESSION["personid"];
