@@ -28,9 +28,9 @@ include($_SERVER['DOCUMENT_ROOT'] . "/includes/checklogin.php");
 		<!-- Main Content -->
 		<?php
 		if ($loggedin) {
-			include($_SERVER['DOCUMENT_ROOT'] . "/includes/icons.php");
-		} else {
 			echo("<br>\n");
+		} else {
+			include($_SERVER['DOCUMENT_ROOT'] . "/includes/login.php");
 		}
 		?> <!-- Footer -->
 		<?php include($_SERVER['DOCUMENT_ROOT'] . "/includes/footer.php"); ?>
