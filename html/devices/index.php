@@ -44,16 +44,20 @@ include($_SERVER['DOCUMENT_ROOT'] . "/includes/checklogin.php");
 					);
 					$devicejson = curl_exec($getdevices);
 					$devicearray = json_decode($devicejson);
-					echo("Found " . count($devicearray->items) . " devices.<br>\n");
-					print_r($devicearray);
-					for ($i = 0; $i < 5; $i++) {
-
-						echo ("					<section class=\"col-4 col-12-narrower\">\n");
-						echo ("						<div class=\"box highlight\">\n");
-						echo ("							<i class=\"icon major solid fa-desktop\" style=\"text-decoration: none;\"></i>\n");
-						echo ("							<h3><a href=\"/devices/dev$i\">$i</a></h3>\n");
-						echo ("						</div>\n");
-						echo ("					</section>\n");
+					if (isset($chdevarr->items[0]->id)) {
+						$devicecount = count($devicearray->items);
+						echo ("Found $devicecount devices.<br>\n");
+						print_r($devicearray);
+						for ($i = 0; $i < $devicecount - 1; $i++) {
+							echo ("					<section class=\"col-4 col-12-narrower\">\n");
+							echo ("						<div class=\"box highlight\">\n");
+							echo ("							<i class=\"icon major solid fa-desktop\" style=\"text-decoration: none;\"></i>\n");
+							echo ("							<h3><a href=\"/devices/view/?deviceid=" . $devicearray->items[$i]->webexDeviceId . "\">" . $devicearray->items[$i]->displayName . "</a></h3>\n");
+							echo ("						</div>\n");
+							echo ("					</section>\n");
+						}
+					} else {
+						echo ("No devices found.<br>\n");
 					}
 ?></div>
 			</div>
