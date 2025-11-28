@@ -11,28 +11,6 @@
 							echo (" class=\"current\"");
 						}
 						echo ("><a href=\"/\">Home</a></li>\n");
-						echo ("					    <li");
-						if ($sitesec == "customers") {
-							echo (" class=\"current\"");
-						}
-						echo ("><a href=\"/customers/\">Customers</a></li>\n");
-						echo ("					    <li");
-						if ($sitesec == "tools") {
-							echo (" class=\"current\"");
-						}
-						echo ("><a href=\"#\">Tools</a>\n");
-						echo ("					      <ul>\n");
-						$rsdata = mysqli_query($dbconn, "SELECT name, path FROM tools WHERE isactive = 1 ORDER BY name") or die("Error in Selecting " . mysqli_error($dbconn));
-						if ($rsdata) {
-							if (mysqli_num_rows($rsdata) > 0) {
-								while ($row = mysqli_fetch_assoc($rsdata)) {
-									echo ("					        <li><a href=\"" . $row["path"] . "\">" . $row["name"] . "</a></li>\n");
-								}
-							}
-						}
-
-						echo ("					      </ul>\n");
-						echo ("					    </li>\n");
 						if ($isadmin) {
 							echo ("					    <li");
 							if ($sitesec == "admin") {
