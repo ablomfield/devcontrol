@@ -65,6 +65,8 @@ if (isset($_GET['code'])) {
   $orgid = $personjson->orgId;
   $_SESSION["personid"] = $personid;
   setcookie("personid", $personid, strtotime("+1 year"), "/");
+  $_SESSION["displayname"] = $displayname;
+  setcookie("displayname", $displayname, strtotime("+1 year"), "/");
 
   // Check if User Exists in Database
   $rsusercheck = mysqli_query($dbconn, "SELECT * FROM users WHERE personid = '" . $personid . "'");
