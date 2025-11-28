@@ -7,10 +7,7 @@ if (isset($_SESSION['personid'])) {
     } else {
         $enabledebug = 0;
     }
-
     $isadmin = $_SESSION["isadmin"];
-    $timezone = $_SESSION["timezone"];
-    $email = $_SESSION["email"];
 } else {
     $loggedin = False;
     if ($sitesec != "home") {

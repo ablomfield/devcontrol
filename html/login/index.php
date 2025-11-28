@@ -4,14 +4,6 @@ session_start();
 // Import Settings
 include($_SERVER['DOCUMENT_ROOT'] . "/includes/settings.php");
 
-// Load Settings
-$rssettings = mysqli_query($dbconn, "SELECT * FROM settings") or die("Error in Selecting " . mysqli_error($dbconn));
-$rowsettings = mysqli_fetch_assoc($rssettings);
-$client_id = $rowsettings["client_id"];
-$client_secret = $rowsettings["client_secret"];
-$integration_id = $rowsettings["integration_id"];
-$oauth_url = $rowsettings["oauth_url"];
-
 if (isset($_GET['code'])) {
   // Retrieve Code
   $oauth_code = $_GET['code'];
@@ -33,14 +25,9 @@ if (isset($_GET['code'])) {
     CURLOPT_POSTFIELDS => $accessenc // Data that will send
   ));
   $accessdata = curl_exec($getaccess);
-  //print_r($accessdata);
   $accessjson = json_decode($accessdata);
+  //print_r($accessdata);
   $authtoken = $accessjson->access_token;
-  $authexpires = $accessjson->expires_in;
-  $refreshtoken = $accessjson->refresh_token;
-  $refreshexpires = $accessjson->refresh_token_expires_in;
-  $authexpires = date("Y-m-d H:i:s", time() + $authexpires);
-  $refreshexpires = date("Y-m-d H:i:s", time() + $refreshexpires);
   $lastaccess = date("Y-m-d H:i:s", time());
 
   // Retrieve Details using authtoken
@@ -61,26 +48,75 @@ if (isset($_GET['code'])) {
   $personid = $personjson->id;
   $displayname = $personjson->displayName;
   $emailarr = $personjson->emails;
-  $email = $emailarr[0];
-  $orgid = $personjson->orgId;
-  $_SESSION["personid"] = $personid;
-  setcookie("personid", $personid, strtotime("+1 year"), "/");
-  $_SESSION["displayname"] = $displayname;
-  setcookie("displayname", $displayname, strtotime("+1 year"), "/");
+  $email = strtolower($emailarr[0]);
+  $emaildomain = substr($email, strpos($email, '@') + 1);
+  $timezone = $personjson->timeZone;
 
   // Check if User Exists in Database
-  $rsusercheck = mysqli_query($dbconn, "SELECT * FROM users WHERE personid = '" . $personid . "'");
-  if (mysqli_fetch_array($rsusercheck) == false) {
-    $insertsql = "INSERT INTO users (personid, displayname, email, orgid, accesstoken, accessexpires, refreshtoken, refreshexpires, lastaccess) VALUES('" . $personid . "', '" . str_replace("'", "''", $displayname) . "', '" . $email . "', '" . $orgid . "', '" . $authtoken . "', '" . $authexpires . "', '" . $refreshtoken . "', '" . $refreshexpires . "', '" . $lastaccess . "')";
-    //echo($insertsql);
-    //die();
+  $rsusercheck = mysqli_query($dbconn, "SELECT * FROM users WHERE email = '" . $email . "'");
+  if (mysqli_num_rows($rsusercheck) == 0) {
+    // Check Self Registration and Deny if Disabled
+    if ($selfregistration == 0) {
+      header("Location: /accessdenied?reason=selfregistration");
+      exit("Denied - Self Registration Not Allowed");
+    }
+    // Check Allowed Domains and Deny if Notin List
+    if ($lockdomains == 1) {
+      $rsdomaincheck = mysqli_query($dbconn, "SELECT * FROM regdomains WHERE domain = '" . $emaildomain . "'");
+      if (mysqli_num_rows($rsdomaincheck) == 0) {
+        header("Location: /accessdenied?reason=domainlock&domain=" . $emaildomain);
+        exit("Denied - domain not allowed ($emaildomain)");
+      }
+    }
+    $insertsql = "INSERT INTO users (personid, displayname, email, lastaccess, timezone) VALUES('" . $personid . "', '" . str_replace("'", "''", $displayname) . "', '" . $email . "', '" . $lastaccess . "', '" . $timezone . "')";
     mysqli_query($dbconn, $insertsql);
+    $userpkid = $dbconn->pkid;
+    $_SESSION["userpkid"] = $userpkid;
+    $_SESSION["personid"] = $personid;
+    $_SESSION["email"] = $email;
+    $_SESSION["displayname"] = $displayname;
+    $_SESSION["timezone"] = $timezone;
+    $_SESSION["authtoken"] = $authtoken;
+    $_SESSION["timezone"] = $timezone;
+    mysqli_query($dbconn, "INSERT INTO history (eventdate, eventsource, eventdesc) VALUES(NOW(),'" . $email . "','LOGIN')");
     header("Location: /");
   } else {
-    $updatesql = "UPDATE users SET displayname = '" . str_replace("'", "''", $displayname) . "', email = '" . $email . "', orgid = '" . $orgid . "', accesstoken = '" . $authtoken . "', accessexpires = '" . $authexpires . "', refreshtoken = '" . $refreshtoken . "' , refreshexpires = '" . $refreshexpires . "', lastaccess = '" . $lastaccess . "' WHERE personid = '" . $personid . "'";
-    //echo ($updatesql);
-    //die();
+    $rowusercheck = mysqli_fetch_assoc($rsusercheck);
+    $isadmin = $rowusercheck["isadmin"];
+    $userpkid = $rowusercheck["pkid"];
+    $timezone = $rowusercheck["timezone"];
+    $orgid = $rowusercheck["lastorg"];
+    if ($orgid != NULL) {
+      // Retrieve Org Details using authtoken
+      $orgurl = "https://webexapis.com/v1/organizations/" . $orgid;
+      $getorg = curl_init($orgurl);
+      curl_setopt($getorg, CURLOPT_CUSTOMREQUEST, "GET");
+      curl_setopt($getorg, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt(
+        $getorg,
+        CURLOPT_HTTPHEADER,
+        array(
+          'Content-Type: application/json',
+          'Authorization: Bearer ' . $authtoken
+        )
+      );
+      $orgdata = curl_exec($getorg);
+      $orgjson = json_decode($orgdata);
+      $orgname = $orgjson->displayName;
+      $_SESSION["orgid"] = $orgid;
+      $_SESSION["orgname"] = $orgname;
+    }
+    $updatesql = "UPDATE users SET personid = '" . $personid . "', displayname = '" . str_replace("'", "''", $displayname) . "', email = '" . $email . "', lastaccess = '" . $lastaccess . "' WHERE email = '" . $email . "'";
     mysqli_query($dbconn, $updatesql);
+    $_SESSION["userpkid"] = $userpkid;
+    $_SESSION["personid"] = $personid;
+    $_SESSION["email"] = $email;
+    $_SESSION["displayname"] = $displayname;
+    $_SESSION["timezone"] = $timezone;
+    $_SESSION["authtoken"] = $authtoken;
+    $_SESSION["isadmin"] = $isadmin;
+    $_SESSION["timezone"] = $timezone;
+    mysqli_query($dbconn, "INSERT INTO history (eventdate, eventsource, eventdesc) VALUES(NOW(),'" . $email . "','LOGIN')");
     header("Location: /");
   }
 } else {
