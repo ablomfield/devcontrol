@@ -44,7 +44,35 @@ $roomcount = count($tuldevarr);
 					</tr>
 				</thead>
 				<tbody>
+					<?php
+					for ($i = 0; $i < $roomcount; $i++) {
+						echo ("					<tr>\n");
 
+						$deviceurl = "https://webexapis.com/v1/devices/$deviceid";
+						$getdevices = curl_init($deviceurl);
+						curl_setopt($getdevices, CURLOPT_CUSTOMREQUEST, "GET");
+						curl_setopt($getdevices, CURLOPT_RETURNTRANSFER, true);
+						curl_setopt(
+							$getdevices,
+							CURLOPT_HTTPHEADER,
+							array(
+								'Content-Type: application/json',
+								'Authorization: Bearer ' . $authtoken
+							)
+						);
+						$devicejson = curl_exec($getdevices);
+						$devicearray = json_decode($devicejson);
+						//print_r($devicearray);
+						if (isset($devicearray->id)) {
+							echo ("						<td>" . $devicearray->displayName . "</td>\n");
+						} else {
+							echo ("						<td>&nbsp;</td>\n");
+						}
+						echo ("						<td>&nbsp;</td>\n");
+						echo ("						<td>&nbsp;</td>\n");
+						echo ("					</tr>\n");
+					}
+					?>
 				</tbody>
 				<thead>
 					<tr>
