@@ -52,19 +52,19 @@ if (isset($_REQUEST["deviceid"])) {
 					$devicejson = curl_exec($getdevices);
 					$devicearray = json_decode($devicejson);
 					print_r($devicearray);
-					if (isset($devicearray->items[0]->id)) {
+					if (isset($devicearray->id)) {
 						echo("				<table>\n");
 						echo("				  <tr>\n");
 						echo("				    <td>Name:</td>\n");
-						echo("				    <td>" . $devicearray->items[$i]->displayName . "</td>\n");
+						echo("				    <td>" . $devicearray->displayName . "</td>\n");
 						echo("				  </tr>\n");
 						echo("				  <tr>\n");
 						echo("				    <td>MAC Address:</td>\n");
-						echo("				    <td>" . $devicearray->items[$i]->mac . "</td>\n");
+						echo("				    <td>" . $devicearray->mac . "</td>\n");
 						echo("				  </tr>\n");						
 						echo("				  <tr>\n");
 						echo("				    <td>IP Address:</td>\n");
-						echo("				    <td>" . $devicearray->items[$i]->ip . "</td>\n");
+						echo("				    <td>" . $devicearray->ip . "</td>\n");
 						echo("				  </tr>\n");												
 						echo("				</table>\n");
 					} else {
