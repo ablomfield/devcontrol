@@ -66,8 +66,8 @@ if(isset($_GET['code'])){
      $rsusercheck = mysqli_query($dbconn, "SELECT * FROM users WHERE personid = '" . $personid . "'");
      if(mysqli_fetch_array($rsusercheck) == false) {
          $insertsql = "INSERT INTO users (personid, displayname, email, avatar, orgid, accesstoken, accessexpires, refreshtoken, refreshexpires, lastaccess) VALUES('" . $personid . "', '" . str_replace("'", "''", $displayname) . "', '" . $email . "', '" . $avatar . "', '" . $orgid . "', '" . $authtoken . "', '" . $authexpires . "', '" . $refreshtoken . "', '" . $refreshexpires . "', '" . $lastaccess . "')";
-         //echo($insertsql);
-	 //die();
+         echo($insertsql);
+         die();
          mysqli_query($dbconn, $insertsql);
          if ($avatar !== "" ) {
 	     $savepath = fopen("../avatars/" . $personid . ".png", 'wb');
