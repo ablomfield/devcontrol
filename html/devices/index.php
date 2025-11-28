@@ -28,7 +28,8 @@ include($_SERVER['DOCUMENT_ROOT'] . "/includes/checklogin.php");
 		<!-- Main Content -->
 		<section class="wrapper style1">
 			<div class="container">
-				<div class="row gtr-200"><?php
+				<div class="row gtr-200">
+<?php
 											for ($i = 0; $i < 5; $i++) {
 												echo ("					<section class=\"col-4 col-12-narrower\">\n");
 												echo ("						<div class=\"box highlight\">\n");
@@ -37,7 +38,7 @@ include($_SERVER['DOCUMENT_ROOT'] . "/includes/checklogin.php");
 												echo ("						</div>\n");
 												echo ("					</section>\n");
 											}
-											?> </div>
+?></div>
 			</div>
 		</section>
 		<!-- Footer -->
