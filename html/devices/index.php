@@ -51,8 +51,8 @@ include($_SERVER['DOCUMENT_ROOT'] . "/includes/checklogin.php");
 						for ($i = 0; $i < $devicecount; $i++) {
 							echo ("					<section class=\"col-4 col-12-narrower\">\n");
 							echo ("						<div class=\"box highlight\">\n");
-							echo ("							<i class=\"icon major solid fa-desktop\" style=\"text-decoration: none;\"></i>\n");
-							echo ("							<h3><a href=\"/devices/view/?deviceid=" . $devicearray->items[$i]->webexDeviceId . "\">" . $devicearray->items[$i]->displayName . "<br>" . $devicearray->items[$i]->mac . "</a></h3>\n");
+							echo ("							<a href=\"/devices/view/?deviceid=" . $devicearray->items[$i]->webexDeviceId . "\"><i class=\"icon major solid fa-desktop\" style=\"text-decoration: none;\"></i>\n");
+							echo ("							<h3>" . $devicearray->items[$i]->displayName . "<br>" . $devicearray->items[$i]->mac . "</a></h3>\n");
 							echo ("						</div>\n");
 							echo ("					</section>\n");
 						}
