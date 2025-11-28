@@ -44,7 +44,7 @@ include($_SERVER['DOCUMENT_ROOT'] . "/includes/checklogin.php");
 					);
 					$devicejson = curl_exec($getdevices);
 					$devicearray = json_decode($devicejson);
-					if (isset($chdevarr->items[0]->id)) {
+					if (isset($devicearray->items[0]->id)) {
 						$devicecount = count($devicearray->items);
 						echo ("Found $devicecount devices.<br>\n");
 						print_r($devicearray);
