@@ -6,7 +6,11 @@ if (isset($_SESSION['personid'])) {
     } else {
         $enabledebug = 0;
     }
-    $isadmin = $_SESSION["isadmin"];
+    if (isset($_SESSION['isadmin'])) {
+        $isadmin = $_SESSION["isadmin"];
+    } else {
+        $isadmin = 0;
+    }
 } else {
     $loggedin = False;
     if ($sitesec != "home") {
